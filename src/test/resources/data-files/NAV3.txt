@@ -1,0 +1,40 @@
+Scheme Code;ISIN Div Payout/ ISIN Growth;ISIN Div Reinvestment;Scheme Name;Net Asset Value;Repurchase Price;Sale Price;Date
+ 
+Interval Fund Schemes(Income)
+ 
+Invesco Mutual Fund
+ 
+134075;INF205K01V29;-;Invesco India Annual Interval Fund - Series 1 - Plan B - Direct Sub-Plan - Growth;11.1377;11.1377;11.1377;08-Jul-2016
+134074;INF205K01V03;-;Invesco India Annual Interval Fund - Series 1 - Plan B - Regular Sub-Plan - Growth;11.1219;11.1219;11.1219;08-Jul-2016
+ 
+LIC Mutual Fund
+ 
+109917;INF767K01261;INF767K01279;LIC MF INTERVAL FUND - QUARTERLY PLAN - SERIES 2 - DIVIDEND OPTION;10.0920;0.0000;0.0000;08-Jul-2016
+109916;INF767K01287;-;LIC MF INTERVAL FUND - QUARTERLY PLAN - SERIES 2 - GROWTH OPTION;18.8396;0.0000;0.0000;08-Jul-2016
+120375;INF767K01HH4;INF767K01HJ0;LIC MF INTERVAL FUND - QUARTERLY PLAN - SERIES 2 -Direct Plan DIVIDEND OPTION;10.0955;0.0000;0.0000;08-Jul-2016
+120372;INF767K01HI2;-;LIC MF INTERVAL FUND - QUARTERLY PLAN - SERIES 2 -Direct Plan GROWTH OPTION;18.9219;0.0000;0.0000;08-Jul-2016
+120367;INF767K01HE1;INF767K01HG6;LIC MF Interval Fund Annual Plan - Series 1 Direct Plan Dividend Option;10.0766;0.0000;0.0000;08-Jul-2016
+108438;INF767K01329;INF767K01337;LIC MF Interval Fund Annual Plan - Series 1 Dividend Option;10.1451;0.0000;0.0000;08-Jul-2016
+108439;INF767K01345;-;LIC MF Interval Fund Annual Plan - Series 1 Growth Option;18.8125;0.0000;0.0000;08-Jul-2016
+120366;INF767K01HF8;-;LIC MF Interval Fund Annual Plan - Series 1Direct Plan Growth Option;18.9330;0.0000;0.0000;08-Jul-2016
+120358;INF767K01HB7;INF767K01HD3;LIC MF Interval Fund Monthly Plan Series 1 Direct Plan Dividend Option;10.0268;0.0000;0.0000;08-Jul-2016
+120359;INF767K01HC5;-;LIC MF Interval Fund Monthly Plan Series 1 Direct Plan Growth Option;18.9936;0.0000;0.0000;08-Jul-2016
+108416;INF767K01295;INF767K01303;LIC MF Interval Fund Monthly Plan Series 1 Dividend Option;10.0259;0.0000;0.0000;08-Jul-2016
+108417;INF767K01311;-;LIC MF Interval Fund Monthly Plan Series 1 Growth Option;18.9364;0.0000;0.0000;08-Jul-2016
+120362;INF767K01GY1;INF767K01HA9;LIC MF Interval Fund Quarterly Plan Series 1 Direct Plan Dividend Option;10.0923;0.0000;0.0000;08-Jul-2016
+120363;INF767K01GZ8;-;LIC MF Interval Fund Quarterly Plan Series 1 Direct Plan Growth  Option;19.1889;0.0000;0.0000;08-Jul-2016
+108408;INF767K01238;INF767K01246;LIC MF Interval Fund Quarterly Plan Series 1 Dividend Option;10.0906;0.0000;0.0000;08-Jul-2016
+108411;INF767K01253;-;LIC MF Interval Fund Quarterly Plan Series 1 Growth Option;19.1302;0.0000;0.0000;08-Jul-2016
+ 
+Reliance Mutual Fund
+ 
+134888;INF204KA12F4;-;Reliance Interval Fund -IV -Series 2 - Direct Plan - Dividend Payout Option;10.9602;10.9602;10.9602;08-Jul-2016
+134890;INF204KA13F2;-;Reliance Interval Fund -IV -Series 2 - Direct Plan - Growth Option;10.9602;10.9602;10.9602;08-Jul-2016
+134889;INF204KA10F8;-;Reliance Interval Fund -IV -Series 2 - Dividend Payout Option;10.8523;10.8523;10.8523;08-Jul-2016
+134891;INF204KA11F6;-;Reliance Interval Fund -IV -Series 2 - Growth Option;10.8523;10.8523;10.8523;08-Jul-2016
+135001;INF204KA14I4;-;Reliance Interval Fund IV- Series 3- Direct Plan-Dividend Payout Option;10.8534;10.8534;10.8534;08-Jul-2016
+134999;INF204KA15I1;-;Reliance Interval Fund IV- Series 3- Direct Plan-Growth option;10.8534;10.8534;10.8534;08-Jul-2016
+135000;INF204KA12I8;-;Reliance Interval Fund IV- Series 3- Dividend Payout Option;10.7595;10.7595;10.7595;08-Jul-2016
+135002;INF204KA13I6;-;Reliance Interval Fund IV- Series 3- Growth option;10.7595;10.7595;10.7595;08-Jul-2016
+
+

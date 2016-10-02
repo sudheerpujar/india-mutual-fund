@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="fundType" class="in.co.pujar.sudheer.finance.mf.bo.FundType" scope="prototype">
+    </bean>
+    <bean id="fund" class="in.co.pujar.sudheer.finance.mf.bo.Fund" scope="prototype">
+    </bean>
+    <bean id="scheme" class="in.co.pujar.sudheer.finance.mf.bo.Scheme" scope="prototype">
+    </bean>
+</beans>
