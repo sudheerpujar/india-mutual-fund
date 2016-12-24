@@ -151,18 +151,27 @@ public class NAVServiceImpl implements NAVService {
     }
 
     @Override
-    public String readFirstLine(String localFilePath, String localFileName) {
-        String firstLine=null;
+    public Map<Long, String> readLines(String localFilePath, String localFileName) {
+        Map<Long, String>lines=new HashMap<Long, String>();
         File localFile = new File(localFilePath,localFileName);
         if(localFile.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(localFile))){
-                firstLine=reader.readLine();
+                String line=null;
+                Long lineIndex= Long.valueOf(0);
+                while((line=reader.readLine())!=null){
+                    if(line.trim().length()>0) {
+                        lines.put(lineIndex++, line);
+                    }
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return firstLine;
+        return lines;
     }
+
+
 
     @Override
     public List<String> splitLine(String line, String separator) {

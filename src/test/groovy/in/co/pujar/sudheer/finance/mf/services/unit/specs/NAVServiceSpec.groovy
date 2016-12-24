@@ -6,6 +6,7 @@ import in.co.pujar.sudheer.finance.mf.services.NAVService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import javax.annotation.Resource
 
@@ -65,6 +66,7 @@ class NAVServiceSpec extends Specification {
             this.getClass().getResource( '/data-files/NAV1.txt' ).getPath()| true
             this.getClass().getResource( '/data-files/NAV2.txt' ).getPath()| true
             this.getClass().getResource( '/data-files/NAV3.txt' ).getPath()| true
+
            /* null| false
             ""| false
             "http"| false
@@ -73,6 +75,7 @@ class NAVServiceSpec extends Specification {
             "https://portal.amfiindia.com/spages/NAV0.txt"| false
             */
     }
+
 
     def "Store nav text data into temporary location"(){
         given : "For a given URL and local location"
@@ -92,6 +95,7 @@ class NAVServiceSpec extends Specification {
         this.getClass().getResource( '/data-files/NAV1.txt' ).getPath()| 1 | true
         this.getClass().getResource( '/data-files/NAV2.txt' ).getPath()| 2 | true
         this.getClass().getResource( '/data-files/NAV3.txt' ).getPath()| 3 |true
+
         /*null| 0 | false
         ""| 0 | false
         "http"| 0 | false
@@ -101,24 +105,27 @@ class NAVServiceSpec extends Specification {
         */
     }
 
-    def "Read First Line of the file"(){
+    @Unroll
+    def "Read non empty line #lineIndex of  #url "(){
         given : "A file @ local location"
         def localLocation = applicationProperty.getProperty(FILE_LOCATION_PROPERTY_KEY)
         navService.storeTextData(url,fileNo,localLocation)
-        when : "I read the first line of the location"
+        when : "I read line #lineIndex of the file #url"
         def localFilePath = navService.generateNavLocalFilePath(localLocation)
         def localFileName = navService.generateNavLocalFileName(fileNo)
-        def firstLine = navService.readFirstLine(localFilePath,localFileName)
-        and : "I spilt the line with a separator"
-        def List columns=navService.splitLine(firstLine,separator);
-        then : "I get a column list of size greater than zero"
-        columns.size()>0
-        where : "file url and separators are "
-        url | fileNo| separator
-        this.getClass().getResource( '/data-files/NAV0.txt' ).getPath()| 0 | ";"
+        def lines = navService.readLines(localFilePath,localFileName)
+        def line =lines.get(Long.valueOf(lineIndex-1))
+        and : "I spilt the line #lineIndex with  separator '#separator' "
+        def List columns=navService.splitLine(line,separator)
+        then : "I get a column list of size #size "
+        columns.size()==size
+        where : "('#url' #fileNo  '#separator'  #size #lineIndex)"
+        url | fileNo| separator|size | lineIndex
+        this.getClass().getResource( '/data-files/NAV0.txt' ).getPath()| 0 | ";" | 8 | 1
+        this.getClass().getResource( '/data-files/NAV1.txt' ).getPath()| 1 | ";" | 1 | 2
+        this.getClass().getResource( '/data-files/NAV2.txt' ).getPath()| 2 | ";" | 1 | 3
+        this.getClass().getResource( '/data-files/NAV3.txt' ).getPath()| 3 | ";" | 8 | 4
     }
-
-
 
 
 
