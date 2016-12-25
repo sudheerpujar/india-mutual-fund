@@ -2,14 +2,19 @@ package in.co.pujar.sudheer.finance.mf.services.unit.specs
 
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream
 import groovy.util.logging.Slf4j
+import in.co.pujar.sudheer.finance.mf.bo.Scheme
+import in.co.pujar.sudheer.finance.mf.builder.impl.SchemeBuilder
+import in.co.pujar.sudheer.finance.mf.builder.impl.SchemeVoBuilder
 import in.co.pujar.sudheer.finance.mf.services.NAVService
 import in.co.pujar.sudheer.finance.mf.enums.NAVLineType
+import in.co.pujar.sudheer.finance.mf.vo.SchemeVo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import javax.annotation.Resource
+import java.text.SimpleDateFormat
 
 
 /**
@@ -146,15 +151,21 @@ class NAVServiceSpec extends Specification {
 
     @Unroll
     def "Build Scheme"(){
-        given : "a scheme"
+        given : "a scheme values"
+        def SchemeVoBuilder schemeVoBuilder=new SchemeVoBuilder().code(code).name(name).gISIN(gISIN).rISIN(rISIN).nav(nav).rPrice(rPrice).sPrice(sPrice).date(date)
+        def SchemeVo schemeVo = schemeVoBuilder.build()
         when : "I build a scheme using scheme builder"
+        def SchemeBuilder schemeBuilder = new SchemeBuilder()
+        schemeBuilder.schemeVo(schemeVo)
+        def Scheme scheme = schemeBuilder.build()
         then : "I verify the data from scheme bean with scheme data"
+        code.equals(String.valueOf(scheme.code)) && gISIN.equals(scheme.gISIN) && rISIN.equals(scheme.rISIN) && name.equals(scheme.name) && nav.equals(String.valueOf(scheme.nav)) && date.equals( new SimpleDateFormat(SchemeBuilder.SCHEME_DATE_FORMAT).format(scheme.date)) && rPrice.equals(String.valueOf(scheme.rPrice)) && sPrice.equals(String.valueOf(scheme.sPrice))
         where :
         code|gISIN|rISIN|name|nav|rPrice|sPrice|date
-        101913|'INF955L01682'|'INF955L01690'|'BARODA PIONEER BALANCE FUND - Plan A - Dividend Option'|'17.21'|'17.04'|'17.21'|'08-Jul-2016'
-        101912|'INF955L01708'|'-'|'BARODA PIONEER BALANCE FUND - Plan A - Growth Option'|'44.78'|'44.33'|'44.78'|'08-Jul-2016'
-        108145|'INF200K01IJ0'|'-'|'SBI TAX ADVANTAGE FUND - SERIES I - GROWTH'|'24.2706'|'N.A.'|'N.A.'|'08-Jul-2016'
-        133322|'-'|'-'|'Sundaram Long Term Tax Advantage Fund Regular Plan Growth'|'10.1743'|'10.1743'|'10.1743'|'08-Jul-2016'
-        135964|'-'|'-'|'UTI Long Term Advantage Fund Series III - Regular Plan - Growth Option'|'10.5687'|'0'|'0'|'08-Jul-2016'
+        '101913'|'INF955L01682'|'INF955L01690'|'BARODA PIONEER BALANCE FUND - Plan A - Dividend Option'|'17.21'|'17.04'|'17.21'|'08-Jul-2016'
+        '101912'|'INF955L01708'|'-'|'BARODA PIONEER BALANCE FUND - Plan A - Growth Option'|'44.78'|'44.33'|'44.78'|'08-Jul-2016'
+        '108145'|'INF200K01IJ0'|'-'|'SBI TAX ADVANTAGE FUND - SERIES I - GROWTH'|'24.2706'|'N.A.'|'N.A.'|'08-Jul-2016'
+        '133322'|'-'|'-'|'Sundaram Long Term Tax Advantage Fund Regular Plan Growth'|'10.1743'|'10.1743'|'10.1743'|'08-Jul-2016'
+        '135964'|'-'|'-'|'UTI Long Term Advantage Fund Series III - Regular Plan - Growth Option'|'10.5687'|'0'|'0'|'08-Jul-2016'
     }
 }

@@ -2,14 +2,21 @@ package in.co.pujar.sudheer.finance.mf.builder.impl;
 
 import in.co.pujar.sudheer.finance.mf.bo.Scheme;
 import in.co.pujar.sudheer.finance.mf.builder.Builder;
+import in.co.pujar.sudheer.finance.mf.vo.SchemeVo;
+import sun.util.calendar.Gregorian;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by sudhe on 25-12-2016.
  */
 public class SchemeBuilder implements Builder {
-    public static final String  SCHEME_DATE_FORMAT="DD-MMM-YYYY";
+    public static final String  SCHEME_DATE_FORMAT="dd-MMM-yyyy";
+    public static final String PRICE_NOT_AVAILABLE = "N.A.";
+    public static final String PRICE_NOT_AVAILABLE_FLOAT = "-1.0";
     private int code;
     private String name;
     private String gISIN;
@@ -61,6 +68,17 @@ public class SchemeBuilder implements Builder {
         return this;
     }
 
+    public SchemeBuilder schemeVo(SchemeVo vo){
+        return code(Integer.parseInt(vo.getCode()))
+                .name(vo.getName())
+                .gISIN(vo.getgISIN())
+                .rISIN(vo.getrISIN())
+                .nav(parsePrice(vo.getNav()))
+                .rPrice(parsePrice(vo.getrPrice()))
+                .sPrice(parsePrice(vo.getsPrice()))
+                .date( parseSchemeDate(vo.getDate()));
+    }
+
     public int getCode() {
         return code;
     }
@@ -96,5 +114,18 @@ public class SchemeBuilder implements Builder {
     @Override
     public Scheme build() {
         return new Scheme(this);
+    }
+
+    private Date parseSchemeDate(String  schemeDate) {
+        Date date=new Date();
+        try {
+            date= (new SimpleDateFormat(SchemeBuilder.SCHEME_DATE_FORMAT)).parse(schemeDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+    private float parsePrice(String s) {
+        return Float.parseFloat(s.equals(PRICE_NOT_AVAILABLE)? PRICE_NOT_AVAILABLE_FLOAT :s);
     }
 }
