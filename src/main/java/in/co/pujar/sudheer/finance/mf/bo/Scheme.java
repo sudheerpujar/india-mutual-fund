@@ -1,12 +1,13 @@
 package in.co.pujar.sudheer.finance.mf.bo;
 
+import in.co.pujar.sudheer.finance.mf.builder.impl.SchemeBuilder;
+
 import java.util.Date;
 
 /**
  * Created by sudhe on 12-07-2016.
  */
 public class Scheme {
-    public static final String  SCHEME_DATE_FORMAT="DD-MMM-YYYY";
     private int code;
     private String name;
     private String gISIN;
@@ -16,68 +17,48 @@ public class Scheme {
     private float sPrice;
     private Date date;
 
-    public int getCode() {
-        return code;
+    public Scheme(SchemeBuilder schemeBuilder) {
+        this.code=schemeBuilder.getCode();
+        this.name=schemeBuilder.getName();
+        this.gISIN=schemeBuilder.getgISIN();
+        this.rISIN=schemeBuilder.getrISIN();
+        this.nav=schemeBuilder.getNav();
+        this.rPrice=schemeBuilder.getrPrice();
+        this.sPrice=schemeBuilder.getsPrice();
+        this.date=schemeBuilder.getDate();
     }
 
-    public void setCode(int code) {
-        this.code = code;
+
+    public int getCode() {
+        return code;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getgISIN() {
         return gISIN;
-    }
-
-    public void setgISIN(String gISIN) {
-        this.gISIN = gISIN;
     }
 
     public String getrISIN() {
         return rISIN;
     }
 
-    public void setrISIN(String rISIN) {
-        this.rISIN = rISIN;
-    }
-
     public float getNav() {
         return nav;
-    }
-
-    public void setNav(float nav) {
-        this.nav = nav;
     }
 
     public float getrPrice() {
         return rPrice;
     }
 
-    public void setrPrice(float rPrice) {
-        this.rPrice = rPrice;
-    }
-
     public float getsPrice() {
         return sPrice;
     }
 
-    public void setsPrice(float sPrice) {
-        this.sPrice = sPrice;
-    }
-
     public Date getDate() {
         return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
     }
 
     @Override
@@ -87,12 +68,41 @@ public class Scheme {
 
         Scheme scheme = (Scheme) o;
 
-        return getCode() == scheme.getCode();
+        if (getCode() != scheme.getCode()) return false;
+        if (Float.compare(scheme.getNav(), getNav()) != 0) return false;
+        if (Float.compare(scheme.getrPrice(), getrPrice()) != 0) return false;
+        if (Float.compare(scheme.getsPrice(), getsPrice()) != 0) return false;
+        if (!getName().equals(scheme.getName())) return false;
+        if (!getgISIN().equals(scheme.getgISIN())) return false;
+        if (!getrISIN().equals(scheme.getrISIN())) return false;
+        return getDate().equals(scheme.getDate());
 
     }
 
     @Override
     public int hashCode() {
-        return getCode();
+        int result = getCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getgISIN().hashCode();
+        result = 31 * result + getrISIN().hashCode();
+        result = 31 * result + (getNav() != +0.0f ? Float.floatToIntBits(getNav()) : 0);
+        result = 31 * result + (getrPrice() != +0.0f ? Float.floatToIntBits(getrPrice()) : 0);
+        result = 31 * result + (getsPrice() != +0.0f ? Float.floatToIntBits(getsPrice()) : 0);
+        result = 31 * result + getDate().hashCode();
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Scheme{" +
+                "code=" + code +
+                ", name='" + name + '\'' +
+                ", gISIN='" + gISIN + '\'' +
+                ", rISIN='" + rISIN + '\'' +
+                ", nav=" + nav +
+                ", rPrice=" + rPrice +
+                ", sPrice=" + sPrice +
+                ", date=" + date +
+                '}';
     }
 }

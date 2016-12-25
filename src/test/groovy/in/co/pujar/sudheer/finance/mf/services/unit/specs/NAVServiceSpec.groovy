@@ -3,6 +3,7 @@ package in.co.pujar.sudheer.finance.mf.services.unit.specs
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream
 import groovy.util.logging.Slf4j
 import in.co.pujar.sudheer.finance.mf.services.NAVService
+import in.co.pujar.sudheer.finance.mf.enums.NAVLineType
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
@@ -48,65 +49,51 @@ class NAVServiceSpec extends Specification {
 
     }
 
-    def "Fetch nav text data for a given URL"(){
+    @Unroll
+    def "Fetch nav text data for a given #url"(){
         log.debug("Fetch Net Asset Value text data")
-        given : "For a given URL "
+        given : "For a given #url "
 
-        when : " we fetch the data "
+        when : " I fetch the data "
             OutputStream data = new ByteOutputStream();
             boolean fetched=navService.fetchTextData(url,data)
-        then : "data size should not be zero"
-            fetch==(data.size()!=0);
+        then : " the data size should not be zero"
+            def dataSize=(data.size()!=0);
             data.close()
         and : "return flag should be appropriate"
-            fetch==fetched
-        where: "possible URLS are : "
-            url | fetch
-            this.getClass().getResource( '/data-files/NAV0.txt' ).getPath()| true
-            this.getClass().getResource( '/data-files/NAV1.txt' ).getPath()| true
-            this.getClass().getResource( '/data-files/NAV2.txt' ).getPath()| true
-            this.getClass().getResource( '/data-files/NAV3.txt' ).getPath()| true
-
-           /* null| false
-            ""| false
-            "http"| false
-            "http://portal.amfiindia.com/spages/NAV0.txt"| true
-            "http://portal.amfiindia.com/spages/NAV4.txt"| false
-            "https://portal.amfiindia.com/spages/NAV0.txt"| false
-            */
+            dataSize && fetched
+        where: "#url "
+            url <<[
+            this.getClass().getResource( '/data-files/NAV0.txt' ).getPath(),
+            this.getClass().getResource( '/data-files/NAV1.txt' ).getPath() ,
+            this.getClass().getResource( '/data-files/NAV2.txt' ).getPath() ,
+            this.getClass().getResource( '/data-files/NAV3.txt' ).getPath() ]
     }
 
-
-    def "Store nav text data into temporary location"(){
-        given : "For a given URL and local location"
+    @Unroll
+    def "Store nav text data of #url into temporary location"(){
+        given : "For a given URL '#url' and local location"
         def localLocation = applicationProperty.getProperty(FILE_LOCATION_PROPERTY_KEY)
-        when : " we fetch and store the data locally "
+        when : " I fetch and store the data locally "
         def stored=navService.storeTextData(url,fileNo,localLocation)
         then : "file size should not be zero "
         def localFilePath= navService.generateNavLocalFilePath(localLocation)
         def localFileName= navService.generateNavLocalFileName(fileNo)
         def file = new File(localFilePath,localFileName);
-        store==(file.exists() && file.size()!=0)
+        def fileExists=(file.exists() && file.size()!=0)
         and : "return flag should be appropriate"
-        store==stored
-        where: "possible URLS are : "
-        url | fileNo| store
-        this.getClass().getResource( '/data-files/NAV0.txt' ).getPath()| 0 | true
-        this.getClass().getResource( '/data-files/NAV1.txt' ).getPath()| 1 | true
-        this.getClass().getResource( '/data-files/NAV2.txt' ).getPath()| 2 | true
-        this.getClass().getResource( '/data-files/NAV3.txt' ).getPath()| 3 |true
+        stored && fileExists
+        where: " #url #file "
+        url | fileNo
+        this.getClass().getResource( '/data-files/NAV0.txt' ).getPath()| 0
+        this.getClass().getResource( '/data-files/NAV1.txt' ).getPath()| 1
+        this.getClass().getResource( '/data-files/NAV2.txt' ).getPath()| 2
+        this.getClass().getResource( '/data-files/NAV3.txt' ).getPath()| 3
 
-        /*null| 0 | false
-        ""| 0 | false
-        "http"| 0 | false
-        "http://portal.amfiindia.com/spages/NAV0.txt"| 0 | true
-        "http://portal.amfiindia.com/spages/NAV4.txt"| 4 | false
-        "https://portal.amfiindia.com/spages/NAV0.txt"| 5 | false
-        */
     }
 
     @Unroll
-    def "Read non empty line #lineIndex of  #url "(){
+    def "Read contents of non-empty line '#lineIndex'"(){
         given : "A file @ local location"
         def localLocation = applicationProperty.getProperty(FILE_LOCATION_PROPERTY_KEY)
         navService.storeTextData(url,fileNo,localLocation)
@@ -127,7 +114,47 @@ class NAVServiceSpec extends Specification {
         this.getClass().getResource( '/data-files/NAV3.txt' ).getPath()| 3 | ";" | 8 | 4
     }
 
+    @Unroll
+    def "Identify Line Type of current '#lineIndex' as '#lineType'" (){
+        given : "A file @ local location"
+        def localLocation = applicationProperty.getProperty(FILE_LOCATION_PROPERTY_KEY)
+        navService.storeTextData(url,fileNo,localLocation)
+        when : "I read the consecutive lines of file of #url"
+        def localFilePath = navService.generateNavLocalFilePath(localLocation)
+        def localFileName = navService.generateNavLocalFileName(fileNo)
+        def lines = navService.readLines(localFilePath,localFileName)
+        def Long currentLineIndex=Long.valueOf(lineIndex-1)
+        def Long nextLineIndex=Long.valueOf(lineIndex)
+        def currentLine =lines.get(currentLineIndex)
+        def nextLine =lines.get(nextLineIndex)
+        and : "I calculate the current line type of line number  '#lineIndex' after splitting the line with '#separator' "
+        def int currentLineSplitSize=navService.splitLine(currentLine,separator).size();
+        def int nextLineSplitSize=navService.splitLine(nextLine,separator).size();
+        def NAVLineType actualLineType=navService.getNAVLineType(currentLineIndex, nextLineIndex, currentLineSplitSize, nextLineSplitSize);
+        then : "I get the Line Type  '#lineType'"
+        actualLineType == lineType
 
+        where : "('#url' #fileNo  '#separator'  #size  #lineIndex #lineType)"
+        url | fileNo| separator|size | lineIndex | lineType
+        this.getClass().getResource( '/data-files/NAV0.txt' ).getPath()| 0 | ";" | NAVLineType.HEADER.columnSize | 1 | NAVLineType.HEADER
+        this.getClass().getResource( '/data-files/NAV1.txt' ).getPath()| 1 | ";" | NAVLineType.FUND_TYPE.columnSize | 2 | NAVLineType.FUND_TYPE
+        this.getClass().getResource( '/data-files/NAV2.txt' ).getPath()| 2 | ";" | NAVLineType.FUND.columnSize | 3 | NAVLineType.FUND
+        this.getClass().getResource( '/data-files/NAV3.txt' ).getPath()| 3 | ";" | NAVLineType.SCHEME.columnSize | 4 | NAVLineType.SCHEME
+        this.getClass().getResource( '/data-files/NAV0.txt' ).getPath()| 0 | ";" | NAVLineType.EOS.columnSize| 15 | NAVLineType.EOS
+        this.getClass().getResource( '/data-files/NAV3.txt' ).getPath()| 3 | ";" | NAVLineType.EOF.columnSize | 31 | NAVLineType.EOF
+    }
 
-
+    @Unroll
+    def "Build Scheme"(){
+        given : "a scheme"
+        when : "I build a scheme using scheme builder"
+        then : "I verify the data from scheme bean with scheme data"
+        where :
+        code|gISIN|rISIN|name|nav|rPrice|sPrice|date
+        101913|'INF955L01682'|'INF955L01690'|'BARODA PIONEER BALANCE FUND - Plan A - Dividend Option'|'17.21'|'17.04'|'17.21'|'08-Jul-2016'
+        101912|'INF955L01708'|'-'|'BARODA PIONEER BALANCE FUND - Plan A - Growth Option'|'44.78'|'44.33'|'44.78'|'08-Jul-2016'
+        108145|'INF200K01IJ0'|'-'|'SBI TAX ADVANTAGE FUND - SERIES I - GROWTH'|'24.2706'|'N.A.'|'N.A.'|'08-Jul-2016'
+        133322|'-'|'-'|'Sundaram Long Term Tax Advantage Fund Regular Plan Growth'|'10.1743'|'10.1743'|'10.1743'|'08-Jul-2016'
+        135964|'-'|'-'|'UTI Long Term Advantage Fund Series III - Regular Plan - Growth Option'|'10.5687'|'0'|'0'|'08-Jul-2016'
+    }
 }

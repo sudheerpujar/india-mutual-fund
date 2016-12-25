@@ -1,6 +1,7 @@
 package in.co.pujar.sudheer.finance.mf.services.impl;
 
 
+import in.co.pujar.sudheer.finance.mf.enums.NAVLineType;
 import in.co.pujar.sudheer.finance.mf.services.NAVService;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
@@ -175,6 +176,16 @@ public class NAVServiceImpl implements NAVService {
 
     @Override
     public List<String> splitLine(String line, String separator) {
-        return Arrays.asList(line.split(separator));
+        return line!=null ?Arrays.asList(line.split(separator)) : new ArrayList<String>();
+    }
+
+    @Override
+    public NAVLineType getNAVLineType(Long currentLineIndex, Long nextLineIndex, int currentLineSplitSize, int nextLineSplitSize) {
+        if (currentLineIndex==0) return NAVLineType.HEADER;
+        if (nextLineSplitSize==NAVLineType.EOF.getColumnSize()) return NAVLineType.EOF;
+        if (currentLineSplitSize==NAVLineType.FUND_TYPE.getColumnSize() && nextLineSplitSize==1) return NAVLineType.FUND_TYPE;
+        if (currentLineSplitSize==NAVLineType.FUND.getColumnSize() && nextLineSplitSize==NAVLineType.SCHEME.getColumnSize()) return NAVLineType.FUND;
+        if (currentLineSplitSize==NAVLineType.SCHEME.getColumnSize() && nextLineSplitSize==1) return NAVLineType.EOS;
+        return NAVLineType.SCHEME;
     }
 }
