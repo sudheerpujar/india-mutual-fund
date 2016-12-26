@@ -159,13 +159,13 @@ class NAVServiceSpec extends Specification {
         schemeBuilder.schemeVo(schemeVo)
         def Scheme scheme = schemeBuilder.build()
         then : "I verify the data from scheme bean with scheme data"
-        code.equals(String.valueOf(scheme.code)) && gISIN.equals(scheme.gISIN) && rISIN.equals(scheme.rISIN) && name.equals(scheme.name) && nav.equals(String.valueOf(scheme.nav)) && date.equals( new SimpleDateFormat(SchemeBuilder.SCHEME_DATE_FORMAT).format(scheme.date)) && rPrice.equals(String.valueOf(scheme.rPrice)) && sPrice.equals(String.valueOf(scheme.sPrice))
+        code == String.valueOf(scheme.code) && gISIN == scheme.gISIN && rISIN == scheme.rISIN && name == scheme.name && (nav == String.valueOf(scheme.nav) || scheme.nav==-1.0) && date == new SimpleDateFormat(SchemeBuilder.SCHEME_DATE_FORMAT).format(scheme.date) && (rPrice == String.valueOf(scheme.rPrice) || scheme.rPrice == -1.0) && (sPrice == String.valueOf(scheme.sPrice) || scheme.sPrice == -1.0)
         where :
         code|gISIN|rISIN|name|nav|rPrice|sPrice|date
         '101913'|'INF955L01682'|'INF955L01690'|'BARODA PIONEER BALANCE FUND - Plan A - Dividend Option'|'17.21'|'17.04'|'17.21'|'08-Jul-2016'
         '101912'|'INF955L01708'|'-'|'BARODA PIONEER BALANCE FUND - Plan A - Growth Option'|'44.78'|'44.33'|'44.78'|'08-Jul-2016'
         '108145'|'INF200K01IJ0'|'-'|'SBI TAX ADVANTAGE FUND - SERIES I - GROWTH'|'24.2706'|'N.A.'|'N.A.'|'08-Jul-2016'
         '133322'|'-'|'-'|'Sundaram Long Term Tax Advantage Fund Regular Plan Growth'|'10.1743'|'10.1743'|'10.1743'|'08-Jul-2016'
-        '135964'|'-'|'-'|'UTI Long Term Advantage Fund Series III - Regular Plan - Growth Option'|'10.5687'|'0'|'0'|'08-Jul-2016'
+        '135964'|'-'|'-'|'UTI Long Term Advantage Fund Series III - Regular Plan - Growth Option'|'10.5687'|'0.0'|'0.0'|'08-Jul-2016'
     }
 }
