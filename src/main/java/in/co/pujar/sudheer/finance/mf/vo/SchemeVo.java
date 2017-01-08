@@ -15,6 +15,10 @@ public class SchemeVo {
     private String sPrice;
     private String date;
 
+    /**
+     *
+     * @param schemeVoBuilder
+     */
     public SchemeVo(SchemeVoBuilder schemeVoBuilder) {
         this.code=schemeVoBuilder.getCode();
         this.name=schemeVoBuilder.getName();
@@ -26,38 +30,75 @@ public class SchemeVo {
         this.date=schemeVoBuilder.getDate();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCode() {
         return code;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getgISIN() {
         return gISIN;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getrISIN() {
         return rISIN;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNav() {
         return nav;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getrPrice() {
         return rPrice;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getsPrice() {
         return sPrice;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,6 +117,10 @@ public class SchemeVo {
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public int hashCode() {
         int result = getCode().hashCode();
@@ -89,6 +134,10 @@ public class SchemeVo {
         return result;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "SchemeVo{" +

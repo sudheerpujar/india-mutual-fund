@@ -1,5 +1,7 @@
 package in.co.pujar.sudheer.finance.mf.bo;
 
+import in.co.pujar.sudheer.finance.mf.builder.impl.FundBuilder;
+
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -10,6 +12,11 @@ public class Fund {
     private String fundName;
     private Set<Scheme> schemes;
 
+    public Fund(FundBuilder fundBuilder) {
+        this.fundName=fundBuilder.getFundName();
+        this.getSchemes().addAll(fundBuilder.getSchemes());
+    }
+
     /**
      * @return
      */
@@ -17,12 +24,6 @@ public class Fund {
         return fundName;
     }
 
-    /**
-     * @param fundName
-     */
-    public void setFundName(String fundName) {
-        this.fundName = fundName;
-    }
 
     /**
      * @return

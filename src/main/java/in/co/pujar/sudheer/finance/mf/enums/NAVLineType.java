@@ -10,6 +10,10 @@ public enum NAVLineType {
         this.columnSize =columnSize;
     }
 
+    /**
+     *
+      * @return
+     */
     public final int getColumnSize() {
         return columnSize;
     }

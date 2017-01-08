@@ -134,6 +134,11 @@ public class NAVServiceImpl implements NAVService {
         return isDataStored;
     }
 
+    /**
+     *
+     * @param localLocation
+     * @return
+     */
     @Override
     public String generateNavLocalFilePath(String localLocation) {
         StringBuffer localFilePath = new StringBuffer(System.getProperty("user.home").toString());
@@ -141,6 +146,11 @@ public class NAVServiceImpl implements NAVService {
         return localFilePath.toString();
     }
 
+    /**
+     *
+     * @param fileNo
+     * @return
+     */
     @Override
     public String generateNavLocalFileName(int fileNo) {
         int day= GregorianCalendar.getInstance().get(GregorianCalendar.DATE);
@@ -151,6 +161,12 @@ public class NAVServiceImpl implements NAVService {
         return storeLocationFileName.toString();
     }
 
+    /**
+     *
+     * @param localFilePath
+     * @param localFileName
+     * @return
+     */
     @Override
     public Map<Long, String> readLines(String localFilePath, String localFileName) {
         Map<Long, String>lines=new HashMap<Long, String>();
@@ -173,12 +189,25 @@ public class NAVServiceImpl implements NAVService {
     }
 
 
-
+    /**
+     *
+     * @param line
+     * @param separator
+     * @return
+     */
     @Override
     public List<String> splitLine(String line, String separator) {
         return line!=null ?Arrays.asList(line.split(separator)) : new ArrayList<String>();
     }
 
+    /**
+     *
+     * @param currentLineIndex
+     * @param nextLineIndex
+     * @param currentLineSplitSize
+     * @param nextLineSplitSize
+     * @return
+     */
     @Override
     public NAVLineType getNAVLineType(Long currentLineIndex, Long nextLineIndex, int currentLineSplitSize, int nextLineSplitSize) {
         if (currentLineIndex==0) return NAVLineType.HEADER;

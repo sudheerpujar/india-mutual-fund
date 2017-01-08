@@ -1,5 +1,7 @@
 package in.co.pujar.sudheer.finance.mf.bo;
 
+import in.co.pujar.sudheer.finance.mf.builder.impl.FundTypeBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -13,18 +15,16 @@ public class FundType {
     private String fundTypeName;
     private Set<Fund> funds;
 
+    public FundType(FundTypeBuilder fundTypeBuilder) {
+        this.fundTypeName=fundTypeBuilder.getFundTypeName();
+        this.getFunds().addAll(fundTypeBuilder.getFunds());
+    }
+
     /**
      * @return
      */
     public String getFundTypeName() {
         return fundTypeName;
-    }
-
-    /**
-     * @param fundTypeName
-     */
-    public void setFundTypeName(String fundTypeName) {
-        this.fundTypeName = fundTypeName;
     }
 
 
